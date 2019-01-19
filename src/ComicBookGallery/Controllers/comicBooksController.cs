@@ -17,33 +17,15 @@ namespace ComicBookGallery.Controllers
             _comicBookRespository = new ComicBookRepository();
         }
         //Action result is the base class for most actions in a Controller base class
-        public ActionResult Detail()
+        public ActionResult Detail(int? id)
         {
-            var comicBook = new ComicBook()
+            if (id==null)
             {
-                SeriesTitle = "The Amazing Spider-Man",
-                IssueNumber = 700,
-                DescriptionHtml = "<p>Final issue! Witness the final hours of Doctor Octopus' life and his one, last, great act of revenge! Even if Spider-Man survives... <strong>will Peter Parker?</strong></p>",
-                Artists = new Artist[]
-                {
-                    new Artist() {Name = "Dan Slott", Role="Script"},
-                    new Artist() {Name = "Humberto Ramos", Role="Pencils"},
-                    new Artist() {Name = "Victor Olazaba", Role="Inks"},
-                    new Artist() {Name = "Edgar Delgado", Role="Colors"},
-                    new Artist() {Name = "Chris Eliopoulos", Role="Letters"},
-                }
-        };
-            return View(comicBook);
-            /*
-            Date Time practice stuff
-            if (DateTime.Today.DayOfWeek==DayOfWeek.Monday)
-            {
-                Redirect is a method of Action Result Class
-                return  Redirect("/");
+                return HttpNotFound();
             }
-            Content is a method of Action Result Class
-            return Content("Hello, From the Comic Books Controller!");
-            */
+            var comicBook = _comicBookRespository.GetComicBook(id.Value);
+
+            return View(comicBook);
         }
     }
 }
